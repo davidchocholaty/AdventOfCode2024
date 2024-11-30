@@ -3,7 +3,7 @@
 # Function to display usage
 usage() {
     echo "Usage: $0 -l <language>"
-    echo "Options for <language>: go, typescript, rust, julia"
+    echo "Options for <language>: go, js, rs, jl" # Go, JavaScript, Rust, Julia
     exit 1
 }
 

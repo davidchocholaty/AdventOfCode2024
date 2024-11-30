@@ -1,4 +1,3 @@
-# sol_part1.jl
 function main()
     # Check if a file was provided as an argument
     if length(ARGS) != 1
