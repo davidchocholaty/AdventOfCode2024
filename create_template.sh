@@ -42,7 +42,7 @@ if [[ -z "$LANGUAGE" ]]; then
     usage
 fi
 
-if [[ "$LANGUAGE" != "go" && "$LANGUAGE" != "typescript" && "$LANGUAGE" != "rust" && "$LANGUAGE" != "julia" ]]; then
+if [[ "$LANGUAGE" != "go" && "$LANGUAGE" != "js" && "$LANGUAGE" != "rs" && "$LANGUAGE" != "jl" ]]; then
     echo "Error: Invalid language specified."
     usage
 fi
@@ -88,10 +88,6 @@ fi
 # Copy files from the source folder to the target folder
 cp -r "$source_folder/"* "$target_folder/"
 echo "Copied files from '$source_folder' to '$target_folder'"
-
-# TODO delete
-day=12
-year=2023
 
 # THE USER SPECIFIC INPUT LARGE
 
