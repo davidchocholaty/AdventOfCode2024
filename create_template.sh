@@ -51,7 +51,7 @@ fi
 current_date=$(date +%Y-%m-%d)  # Format: YYYY-MM-DD
 
 # Extract the day from the current date
-day=$(date +%d)  # Format: DD
+day=$(date +%-d)  # Format: D (removes leading zero if day < 10)
 year=$(date +%Y)  # Format: YYYY
 
 # Display the results
