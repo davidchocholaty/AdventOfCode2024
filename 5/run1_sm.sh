@@ -1,3 +1,3 @@
 #!/bin/bash
 
-node sol_part1.js sm
+go run sol_part1.go sm
