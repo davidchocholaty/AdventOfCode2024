@@ -16,9 +16,7 @@ func main() {
 
 	content := string(inputRaw)
 
-	// ==================================================
-	// PART 1
-	// ==================================================
+	// part 1
 
 	// Format input
 	var IDCount []string
@@ -58,7 +56,6 @@ func main() {
 			reorderedInput = append(reorderedInput, input[pointer].(int))
 			input[pointer] = "."
 
-			// Decrement pointer until get to next number
 			for input[pointer] == "." {
 				pointer--
 			}
@@ -76,11 +73,8 @@ func main() {
 
 	fmt.Println("part 1: ", tot)
 
-	// ==================================================
-	// PART 2
-	// ==================================================
+	// part 2
 
-	// Format input (different to part 1)
 	ID := 0
 	var inputPart2 [][2]interface{}
 
@@ -94,14 +88,11 @@ func main() {
 		}
 	}
 
-	// Swap blocks
-	// Loop through numbers from the back
 	for i := len(inputPart2) - 1; i >= 0; i-- {
 		id := inputPart2[i][0]
 		size := inputPart2[i][1].(int)
 
 		if id != "." {
-			// Go through available spaces from the front
 			idxMax := -1
 			for j, item := range inputPart2 {
 				if item[0] == id && item[1] == size {
@@ -115,12 +106,9 @@ func main() {
 				available := inputPart2[j][1].(int)
 
 				if char == "." {
-					// Can move item to this space?
 					if size <= available {
-						// Decrement amount of free space at pos
 						inputPart2[j][1] = available - size
 
-						// Find index of the current item
 						idx := -1
 						for k, item := range inputPart2 {
 							if item[0] == id && item[1] == size {
@@ -129,10 +117,8 @@ func main() {
 							}
 						}
 
-						// Replace it with free space
 						inputPart2[idx] = [2]interface{}{".", size}
 
-						// Insert number in right place
 						newInputPart2 := make([][2]interface{}, 0)
 						newInputPart2 = append(newInputPart2, inputPart2[:j]...)
 						newInputPart2 = append(newInputPart2, [2]interface{}{id, size})

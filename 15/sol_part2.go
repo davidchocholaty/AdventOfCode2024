@@ -74,7 +74,6 @@ func updateGridPart1(grid [][]rune, direction rune) [][]rune {
 
 	robot := findRobot(grid)
 
-	// See if robot can move in the given direction
 	i, j := robot.Row+di, robot.Col+dj
 	canMove := false
 	for grid[i][j] != '#' {
@@ -86,7 +85,6 @@ func updateGridPart1(grid [][]rune, direction rune) [][]rune {
 		j += dj
 	}
 
-	// Move adjacent boxes and robot
 	if canMove {
 		i, j := robot.Row+di, robot.Col+dj
 		for grid[i][j] == 'O' {
@@ -116,13 +114,11 @@ func getAllBoxes(pos Position, di int, grid [][]rune) (map[Position]bool, bool) 
 		if grid[i][j] == '[' {
 			boxes[Position{i, j}] = true
 			boxes[Position{i, j + 1}] = true
-			// Explore positions above/below the box
 			stack = append(stack, Position{i + di, j})
 			stack = append(stack, Position{i + di, j + 1})
 		} else if grid[i][j] == ']' {
 			boxes[Position{i, j}] = true
 			boxes[Position{i, j - 1}] = true
-			// Explore positions above/below the box
 			stack = append(stack, Position{i + di, j})
 			stack = append(stack, Position{i + di, j - 1})
 		} else if grid[i][j] == '#' {
@@ -137,14 +133,12 @@ func updateGridPart2(grid [][]rune, direction rune) [][]rune {
 	robot := findRobot(grid)
 	di, dj := getDirection(direction)
 
-	// If there is no box in the way - just move robot to this pos
 	if grid[robot.Row+di][robot.Col+dj] == '.' {
 		grid[robot.Row+di][robot.Col+dj] = '@'
 		grid[robot.Row][robot.Col] = '.'
 		return grid
 	}
 
-	// Sideways movement is similar to before
 	if direction == '>' || direction == '<' {
 		i, j := robot.Row+di, robot.Col+dj
 		canMove := false
@@ -158,7 +152,6 @@ func updateGridPart2(grid [][]rune, direction rune) [][]rune {
 		}
 
 		if canMove {
-			// Move boxes
 			j := robot.Col + dj
 			for grid[robot.Row][j] == '[' || grid[robot.Row][j] == ']' {
 				j += dj
@@ -181,24 +174,21 @@ func updateGridPart2(grid [][]rune, direction rune) [][]rune {
 				}
 			}
 
-			// Move robot
 			grid[robot.Row][robot.Col] = '.'
 			grid[robot.Row+di][robot.Col+dj] = '@'
 		}
 	} else if direction == '^' || direction == 'v' {
-		// Finally, move boxes up/down...
 		i, j := robot.Row+di, robot.Col+dj
-		// If can_move robot, returns all boxes that need moving
+
 		boxMap, canMove := getAllBoxes(Position{i, j}, di, grid)
 
 		if canMove {
-			// Convert map to slice for sorting
+
 			var boxes []Position
 			for pos := range boxMap {
 				boxes = append(boxes, pos)
 			}
 
-			// Sort the boxes in ascending/descending row order
 			if direction == '^' {
 				sort.Slice(boxes, func(i, j int) bool {
 					return boxes[i].Row < boxes[j].Row ||
@@ -212,12 +202,10 @@ func updateGridPart2(grid [][]rune, direction rune) [][]rune {
 			}
 
 			for _, box := range boxes {
-				// Move box up/down and replace current position by free space
 				grid[box.Row+di][box.Col] = grid[box.Row][box.Col]
 				grid[box.Row][box.Col] = '.'
 			}
 
-			// Move robot
 			grid[robot.Row][robot.Col] = '.'
 			grid[robot.Row+di][robot.Col+dj] = '@'
 		}

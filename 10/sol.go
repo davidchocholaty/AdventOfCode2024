@@ -54,14 +54,12 @@ func main() {
 	for _, pos := range startPositions {
 		paths := dfs(pos, grid)
 
-		// Count unique destinations reached
 		uniquePaths := make(map[Position]bool)
 		for _, p := range paths {
 			uniquePaths[p] = true
 		}
 		tot1 += len(uniquePaths)
 
-		// Count number of paths walked
 		tot2 += len(paths)
 	}
 
@@ -70,7 +68,6 @@ func main() {
 }
 
 func validMoves(pos Position, grid [][]int) []Position {
-	// Return positions of valid moves from pos - move up by 1 each step
 	var children []Position
 	i, j := pos.i, pos.j
 
@@ -104,10 +101,8 @@ func validMoves(pos Position, grid [][]int) []Position {
 
 func dfs(startPos Position, grid [][]int) []Position {
 	stack := []Position{startPos}
-	// Keep track of all 9s that reach (can get there multiple ways so will have duplicates)
 	var reached []Position
 
-	// Track visited positions to avoid cycles
 	visited := make(map[Position]bool)
 
 	for len(stack) > 0 {

@@ -35,9 +35,7 @@ func main() {
 		operations[[3]string{parts[0], parts[2], parts[4]}] = parts[1]
 	}
 
-	// ======================================================================================
 	// PART 1
-	// ======================================================================================
 
 	for len(operations) > 0 {
 		for opKey := range operations {
@@ -71,7 +69,6 @@ func main() {
 		}
 	}
 
-	// Build the binary number
 	var numBuilder strings.Builder
 	for i := 45; i >= 0; i-- {
 		var key string
@@ -87,11 +84,8 @@ func main() {
 	num, _ := strconv.ParseInt(numStr, 2, 64)
 	fmt.Println("part 1: ", num)
 
-	// ======================================================================================
 	// PART 2: ripple adder
-	// ======================================================================================
 
-	// Recreate operations since they were deleted in part 1
 	type Operation struct {
 		input1, input2, res, operand string
 	}
@@ -107,20 +101,16 @@ func main() {
 		inputOperandMap[input2] = append(inputOperandMap[input2], operand)
 	}
 
-	// Keep track of gates that don't follow expected pattern
 	wrongGates := make(map[string]bool)
 
 	for _, op := range operationsList {
 		input1, input2, res, operand := op.input1, op.input2, op.res, op.operand
 
-		// Let's ignore first and last gates to begin with since they are slightly different
 		if res != "z00" && res != "z01" && res != "z45" {
-			// 1. Expect z gates to result from an XOR
 			if res[0] == 'z' && operand != "XOR" {
 				wrongGates[res] = true
 			}
 
-			// 2. If see an XOR, either expect to have x/y inputs or z outputs
 			if operand == "XOR" {
 				if (input1[0] != 'x' && input1[0] != 'y') &&
 					(input2[0] != 'x' && input2[0] != 'y') &&
@@ -129,8 +119,6 @@ func main() {
 				}
 			}
 
-			// 3. If have an AND operation then expect that to feed into an OR
-			// (the only exception is the operation on the first 2 inputs)
 			if operand == "AND" {
 				if input1 != "x00" && input2 != "x00" && input1 != "y00" && input2 != "y00" {
 					hasOR := false
@@ -146,8 +134,6 @@ func main() {
 				}
 			}
 
-			// 4. An XOR result can feed into another XOR or an AND but not an OR operation
-			// (the inputs to OR are only results of AND operations)
 			if operand == "XOR" {
 				for _, op := range inputOperandMap[res] {
 					if op == "OR" {
@@ -159,12 +145,11 @@ func main() {
 		}
 	}
 
-	// Convert wrongGates to a sorted slice for output
 	var wrongGatesList []string
 	for gate := range wrongGates {
 		wrongGatesList = append(wrongGatesList, gate)
 	}
-	// Sort the slice
+
 	for i := 0; i < len(wrongGatesList)-1; i++ {
 		for j := i + 1; j < len(wrongGatesList); j++ {
 			if wrongGatesList[i] > wrongGatesList[j] {

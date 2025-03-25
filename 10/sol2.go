@@ -7,15 +7,12 @@ import (
 	"strconv"
 )
 
-// Position represents a coordinate in the map
 type Position struct {
 	row, col int
 }
 
-// Trail represents a path from a trailhead to a summit
 type Trail []Position
 
-// parseInput reads the input file and parses the topographic map
 func parseInput(fileName string) ([][]int, error) {
 	file, err := os.Open(fileName)
 	if err != nil {
@@ -45,7 +42,6 @@ func parseInput(fileName string) ([][]int, error) {
 	return mapData, nil
 }
 
-// findTrailheads finds all positions with height 0
 func findTrailheads(mapData [][]int) []Position {
 	var trailheads []Position
 	for row := 0; row < len(mapData); row++ {
@@ -58,7 +54,6 @@ func findTrailheads(mapData [][]int) []Position {
 	return trailheads
 }
 
-// bfsScore performs BFS to calculate the score of reachable 9s from a trailhead
 func bfsScore(mapData [][]int, start Position) int {
 	queue := []Position{start}
 	visited := make(map[Position]bool)
@@ -93,7 +88,6 @@ func bfsScore(mapData [][]int, start Position) int {
 	return len(reachableNines)
 }
 
-// bfsRating performs BFS to calculate the rating (number of distinct hiking trails)
 func bfsRating(mapData [][]int, start Position) int {
 	type QueueItem struct {
 		pos  Position

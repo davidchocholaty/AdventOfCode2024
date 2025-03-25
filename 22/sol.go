@@ -39,7 +39,7 @@ func main() {
 	fmt.Println("part 1: ", tot)
 
 	// PART 2
-	// Find the sequence of 4 number changes that maximizes the bananas sold across all buyers
+
 	var secretNums [][]int
 	for _, num := range initNumbers {
 		vals := []int{num}
@@ -48,7 +48,6 @@ func main() {
 			num = ((num / 32) ^ num) % 16777216
 			num = ((num * 2048) ^ num) % 16777216
 
-			// Get the last digit of the number
 			numStr := strconv.Itoa(num)
 			val, _ := strconv.Atoi(string(numStr[len(numStr)-1]))
 			vals = append(vals, val)
@@ -58,8 +57,6 @@ func main() {
 
 	sequencePrice := make(map[string][]int)
 	for _, nums := range secretNums {
-		// Want to get the price the first time that see a sequence for each buyer
-		// This is equivalent to a list of visited
 		var sequences []string
 
 		differences := make([]int, len(nums)-1)
@@ -67,7 +64,6 @@ func main() {
 			differences[i] = nums[i+1] - nums[i]
 		}
 
-		// Sliding window with size 4
 		for i := 0; i <= len(differences)-4; i++ {
 			sequence := differences[i : i+4]
 			seqStr := fmt.Sprintf("%v", sequence)
